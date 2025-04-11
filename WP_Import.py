@@ -6,7 +6,7 @@ import sys
 
 def extract_json(content):
     """Extract JSON content from a <script> tag if present."""
-    match = re.search(r'<script[^>]*type="application/ld\\+json"[^>]*>(.*?)</script>', content, re.DOTALL)
+    match = re.search(r'<script[^>]*type="application/ld\+json"[^>]*>(.*?)</script>', content, re.DOTALL)
     return match.group(1) if match else content
 
 def process_json_files(input_dir, output_file):
@@ -19,8 +19,8 @@ def process_json_files(input_dir, output_file):
         print("No JSON files found in the specified folder.")
         return
 
-    wp_category = input("Enter the wp_category value: ")
-
+    wp_category = "input("Enter the wp_category value: ")"
+    
     data_dict = {
         "wp_title": [],
         "wp_name": [],
@@ -56,11 +56,12 @@ def process_json_files(input_dir, output_file):
                 print(f"Error reading {file}: Invalid JSON format.")
 
     df = pd.DataFrame(data_dict)
-    df.to_csv(output_file, index=False, encoding="utf-8-sig")  # Use utf-8-sig for Excel-friendly CSVs
-    print(f"CSV saved as {output_file}")
+    df.to_excel(output_file, index=False, engine='openpyxl')
+    print(f"Spreadsheet saved as {output_file}")
 
 if __name__ == "__main__":
+    # Allow passing input directory and output filename as arguments
     input_dir = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()
-    output_file = sys.argv[2] if len(sys.argv) > 2 else "output.csv"
+    output_file = sys.argv[2] if len(sys.argv) > 2 else "output.xlsx"
 
     process_json_files(input_dir, output_file)
